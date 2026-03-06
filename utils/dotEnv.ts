@@ -4,6 +4,7 @@ dotenv.config();
 
 const envData = {
 	PORT: process.env.PORT,
+	SECRET: process.env.SECRET,
 	DATABASE: {
 		PGUSER: process.env.PGUSER,
 		PGHOST: process.env.PGHOST,

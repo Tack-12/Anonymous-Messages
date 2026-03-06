@@ -27,3 +27,22 @@ passport.use(new LocalStrategy(async (email, password, done) => {
 
 
 }));
+
+passport.serializeUser((user, done) => {
+	done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+	try {
+		const { row } = await pool.query(`SELECT id, firstname, lastname, email, membership FROM users WHERE id=$1`, [id]);
+		const user = row
+
+		done(null, user);
+
+	} catch (error) {
+		done(error);
+	}
+});
+
+
+export default passport;

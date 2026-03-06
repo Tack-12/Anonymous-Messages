@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create User</title>
+</head>
+<body>
+
+<h2>Create User</h2>
+
+<form action="/log-in" method="POST">
+
+    <label for="firstname">First Name:</label><br>
+    <input type="text" id="firstname" name="firstname" required><br><br>
+
+    <label for="lastname">Last Name:</label><br>
+    <input type="text" id="lastname" name="lastname" required><br><br>
+
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" name="password" required><br><br>
+
+    <label for="confirm_password">Confirm Password:</label><br>
+    <input type="password" id="confirm_password" name="confirm_password" required><br><br>
+
+    <label for="membership">Membership:</label><br>
+    <select id="membership" name="membership">
+        <option value="admin">Admin</option>
+        <option value="normal">Normal</option>
+    </select><br><br>
+
+    <button type="submit">Submit</button>
+
+</form>
+
+</body>
+</html>
