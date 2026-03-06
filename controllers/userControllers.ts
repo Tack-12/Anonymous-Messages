@@ -1,6 +1,7 @@
-import passport from "../utils/passport";
-import { body, validationResult, CustomValidator, matchedData } from "express-validator";
-import pool from "../db/pool";
+import passport from "../utils/passport.ts";
+import { body, validationResult, matchedData } from "express-validator";
+import pool from "../db/pool.ts";
+import bcrypt from "bcryptjs";
 
 const emailErr = "The input must be an email";
 const letterErr = "The input must only contain letters";
@@ -48,9 +49,10 @@ export const signUpUserPost = [validateUser, async (req, res, next) => {
 		}
 		const { firstname, lastname, email, password } = matchedData(req);
 		const membership = req.body.membership;
+		const hashed_password = await bcrypt.hash(password, 10);
 
 		await pool.query(`INSERT INTO users (firstname, lastname, email, password, membership)VALUES ($1, $2, $3, $4, $5)`,
-			[firstname, lastname, email, password, membership]);
+			[firstname, lastname, email, hashed_password, membership]);
 
 		res.redirect("/");
 	} catch (err) {

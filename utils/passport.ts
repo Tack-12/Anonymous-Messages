@@ -1,5 +1,5 @@
 import passport from "passport";
-import * as LocalStrategy from "passport-local";
+import { Strategy as LocalStrategy } from "passport-local";
 import bcrypt from "bcryptjs";
 import pool from "../db/pool.ts";
 
