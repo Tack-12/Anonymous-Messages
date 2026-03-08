@@ -37,6 +37,14 @@ export const signUpUserGet = (req, res, next) => {
 	}
 }
 
+export const loginUserGet = (req, res, next) => {
+	try {
+		res.render("login");
+	} catch (err) {
+		next(err);
+	}
+}
+
 export const signUpUserPost = [validateUser, async (req, res, next) => {
 
 	try {
@@ -60,7 +68,7 @@ export const signUpUserPost = [validateUser, async (req, res, next) => {
 	}
 }]
 
-export const loginUser = passport.authenticate("local", {
+export const loginUserPost = passport.authenticate("local", {
 	successRedirect: "/",
-	faliureRedirect: "/"
+	faliureRedirect: "/log-in"
 })
