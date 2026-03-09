@@ -24,7 +24,7 @@ app.use(session({
 	saveUninitialized: false,
 	store: new pgSession({
 		pool: pool,
-		tableName: "user_sessions",
+		tableName: "session",
 	}),
 }));
 

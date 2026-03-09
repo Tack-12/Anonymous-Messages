@@ -3,23 +3,29 @@ import { Strategy as LocalStrategy } from "passport-local";
 import bcrypt from "bcryptjs";
 import pool from "../db/pool.ts";
 
-
-passport.use(new LocalStrategy(async (email, password, done) => {
+const data_fields = {
+	usernameField: "email",
+	passwordField: "password",
+}
+passport.use(new LocalStrategy(data_fields, async (email, password, done) => {
 
 	try {
 		const { rows } = await pool.query(`SELECT * FROM users WHERE email=$1`, [email]);
-		const username: string = rows[3];
+		const user = rows[0];
 
-		if (!username) {
-			done(null, false, { message: "No Email Provided" });
+		if (!rows) {
+			done(null, false, { message: "Incorrect Email/Password" });
 		}
 
-		const hashed_password = rows[4];
+		const hashed_password = user.password;
+		console.log(hashed_password);
 		const matched = await bcrypt.compare(password, hashed_password);
 
 		if (!matched) {
-			done(null, false, { message: "No Email Provided" });
+			done(null, false, { message: "Incorrect Email/Password" });
 		}
+
+		done(null, user);
 
 	} catch (err) {
 		done(err);
@@ -34,8 +40,8 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
 	try {
-		const { row } = await pool.query(`SELECT id, firstname, lastname, email, membership FROM users WHERE id=$1`, [id]);
-		const user = row
+		const { rows } = await pool.query(`SELECT id, firstname, lastname, email, membership FROM users WHERE id=$1`, [id]);
+		const user = rows[0];
 
 		done(null, user);
 
