@@ -5,6 +5,11 @@
     <title>Hello Page</title>
 </head>
 <body>
-    <h1>Hello there</h1>
+    <h1>
+        Hello there 
+        <% if (typeof user !== 'undefined' && user) { %>
+            <%= user.name %>
+        <% } %>
+    </h1>
 </body>
 </html>

@@ -72,3 +72,7 @@ export const loginUserPost = passport.authenticate("local", {
 	successRedirect: "/",
 	faliureRedirect: "/log-in"
 })
+
+export const messagesGet = (req, res, next) => {
+	res.render("MessageBoard")
+}
