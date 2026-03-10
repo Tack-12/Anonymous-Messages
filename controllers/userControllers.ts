@@ -91,7 +91,12 @@ export const messagesGet = async (req, res, next) => {
 				return res.render("messageBoard", { data: total_data });
 			}
 			else {
-				return res.render("messageBoard", { data: { username: "Anonomoyus", notes: messages } });
+				const anonymous = messages.map((msg) => ({
+					username: "Anonymous",
+					notes: msg
+				}));
+				console.log(anonymous);
+				return res.render("messageBoard", { data: anonymous });
 			}
 		}
 	}
