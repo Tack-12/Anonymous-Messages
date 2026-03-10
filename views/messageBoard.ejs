@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Message Board</title>
+</head>
+<body>
+
+<h1>Message Board</h1>
+
+<% if (data && data.length > 0) { %>
+
+        <% data.forEach((item)=>{ %>
+        <div style="border:1px solid #ccc; padding:10px; margin:10px;">
+            
+            <h3><%= item.notes.title %></h3>
+
+            <p><%= item.notes.message %></p>
+
+            <small>
+                Posted by: <%= item.username %> <br>
+                Date: <%= item.notes.created_at %>
+            </small>
+
+        </div>
+    <% }) %>
+
+<% } else { %>
+    <p>No messages found.</p>
+<% } %>
+
+</body>
+</html>

@@ -34,6 +34,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/", userRoutes);
 
 
-app.listen(3000, () => {
-	console.log("Server Listening on PORT 3000");
+app.listen(dotEnv.PORT, () => {
+	console.log("Server is on and Listening on the defined PORT");
 });

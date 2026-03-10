@@ -2,6 +2,7 @@ import passport from "../utils/passport.ts";
 import { body, validationResult, matchedData } from "express-validator";
 import pool from "../db/pool.ts";
 import bcrypt from "bcryptjs";
+import { isAuth } from "./authMiddleware.ts";
 
 const emailErr = "The input must be an email";
 const letterErr = "The input must only contain letters";
@@ -23,7 +24,6 @@ const validateUser = [
 
 export const userIndex = (req, res, next) => {
 	try {
-		console.log(req.user);
 		res.render("index", { user: req.user });
 	} catch (err) {
 		next(err);
@@ -74,6 +74,29 @@ export const loginUserPost = passport.authenticate("local", {
 	faliureRedirect: "/log-in"
 })
 
-export const messagesGet = (req, res, next) => {
-	res.render("MessageBoard")
+export const messagesGet = async (req, res, next) => {
+
+	try {
+		const total_data: any = [];
+		const { rows } = await pool.query(`SELECT * FROM messages;`);
+		const messages = rows;
+		for (let i = 0; i < messages.length; i++) {
+			const { rows } = await pool.query(`SELECT * FROM users where id = $1 `, [messages[i].userid]);
+			total_data.push({ username: rows[0].firstname, notes: messages[i] });
+
+			if (req.isAuthenticated() && req.user.admin === "Admin") {
+				return res.render("messageBoard", { data: total_data });
+			}
+			else if (req.isAuthenticated() && req.user.admin !== "Admin") {
+				return res.render("messageBoard", { data: total_data });
+			}
+			else {
+				return res.render("messageBoard", { data: { username: "Anonomoyus", notes: messages } });
+			}
+		}
+	}
+	catch (error) {
+		next(error);
+	};
+
 }
