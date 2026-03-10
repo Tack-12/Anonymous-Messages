@@ -1,9 +1,9 @@
 
 export const isAuth = (req, res, next) => {
-	if (req.body.isAuthenticated()) {
+	if (req.isAuthenticated()) {
 		next();
 	} else {
-		res.status(404).json({ "msg": "You are not Authenticated" })
+		res.status(401).json({ "msg": "You are not Authenticated" })
 	}
 }
 

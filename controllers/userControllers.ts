@@ -23,6 +23,7 @@ const validateUser = [
 
 export const userIndex = (req, res, next) => {
 	try {
+		console.log(req.user);
 		res.render("index", { user: req.user });
 	} catch (err) {
 		next(err);

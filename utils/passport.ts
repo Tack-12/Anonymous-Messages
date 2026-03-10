@@ -18,7 +18,6 @@ passport.use(new LocalStrategy(data_fields, async (email, password, done) => {
 		}
 
 		const hashed_password = user.password;
-		console.log(hashed_password);
 		const matched = await bcrypt.compare(password, hashed_password);
 
 		if (!matched) {
