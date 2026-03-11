@@ -4,8 +4,8 @@ import { isAuth, isAdmin } from "../controllers/authMiddleware.ts";
 const userRoutes = Router();
 
 
-userRoutes.get("/", UserController.userIndex);
-
+//Show the home Page with the Messages
+userRoutes.get("/", UserController.messagesGet);
 //User Routes to login
 userRoutes.get("/log-in", UserController.loginUserGet);
 userRoutes.post("/log-in", UserController.loginUserPost);
@@ -15,7 +15,6 @@ userRoutes.get("/sign-up", UserController.signUpUserGet);
 userRoutes.post("/sign-up", UserController.signUpUserPost);
 
 //User Routes to show messages
-userRoutes.get("/messages", UserController.messagesGet);
 userRoutes.get("/write-messages", isAuth, UserController.insertMessageGet);
 //userRoutes.get("/messages-admin", isAuth, isAdmin, UserController.messagesAdminGet);
 

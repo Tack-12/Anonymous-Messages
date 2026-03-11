@@ -5,6 +5,7 @@ dotenv.config();
 const envData = {
 	PORT: process.env.PORT,
 	SECRET: process.env.SESSION_SECRET,
+	ADMIN: process.env.ADMIN,
 	DATABASE: {
 		PGUSER: process.env.PGUSER,
 		PGHOST: process.env.PGHOST,

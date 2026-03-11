@@ -3,12 +3,15 @@ import { body, validationResult, matchedData } from "express-validator";
 import pool from "../db/pool.ts";
 import bcrypt from "bcryptjs";
 import { isAuth } from "./authMiddleware.ts";
+import envData from "../utils/dotEnv.ts";
 
 const emailErr = "The input must be an email";
 const letterErr = "The input must only contain letters";
 const lengthErr = "The input must be length of minimum 1 - 20";
 const passwordLength = " The length of password is not enough";
 const passNoMatch = "The password you have entered doesn't match";
+const notAdmin = "Your'e not an Admin the pass is incorrect";
+const adminPass = envData.ADMIN || "apple"
 
 const validateUser = [
 	body("firstname").trim().isAlpha().withMessage(`First Name ${letterErr}`)
@@ -19,7 +22,8 @@ const validateUser = [
 	body("password").isLength({ min: 5 }).withMessage(emailErr),
 	body('confirm_password').custom((value, { req }) => {
 		return value === req.body.password;
-	}).withMessage(passNoMatch)
+	}).withMessage(passNoMatch),
+	body("admin_pass").optional().trim().matches(adminPass).withMessage(notAdmin),
 ];
 
 export const userIndex = (req, res, next) => {
@@ -83,22 +87,23 @@ export const messagesGet = async (req, res, next) => {
 		for (let i = 0; i < messages.length; i++) {
 			const { rows } = await pool.query(`SELECT * FROM users where id = $1 `, [messages[i].userid]);
 			total_data.push({ username: rows[0].firstname, notes: messages[i] });
-
-			if (req.isAuthenticated() && req.user.admin === "Admin") {
-				return res.render("messageBoard", { data: total_data });
-			}
-			else if (req.isAuthenticated() && req.user.admin !== "Admin") {
-				return res.render("messageBoard", { data: total_data });
-			}
-			else {
-				const anonymous = messages.map((msg) => ({
-					username: "Anonymous",
-					notes: msg
-				}));
-				console.log(anonymous);
-				return res.render("messageBoard", { data: anonymous });
-			}
 		}
+
+		if (req.isAuthenticated() && req.user.admin === "Admin") {
+			return res.render("messageBoardAdmin", { data: total_data });
+		}
+		else if (req.isAuthenticated() && req.user.admin !== "Admin") {
+			return res.render("messageBoard", { data: total_data });
+		}
+		else {
+			const anonymous = messages.map((msg) => ({
+				username: "Anonymous",
+				notes: msg
+			}));
+			console.log(anonymous);
+			return res.render("messageBoard", { data: anonymous });
+		}
+
 	}
 	catch (error) {
 		next(error);
