@@ -16,8 +16,9 @@ userRoutes.post("/sign-up", UserController.signUpUserPost);
 
 //User Routes to show messages
 userRoutes.get("/messages", UserController.messagesGet);
+userRoutes.get("/write-messages", isAuth, UserController.insertMessageGet);
 //userRoutes.get("/messages-admin", isAuth, isAdmin, UserController.messagesAdminGet);
 
 //Post Messages:
-//userRoutes.post("/messages", isAuth, UserController.messagesPost);
+userRoutes.post("/write-messages", isAuth, UserController.insertMessagePost);
 export default userRoutes;

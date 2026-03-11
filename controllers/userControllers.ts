@@ -105,3 +105,23 @@ export const messagesGet = async (req, res, next) => {
 	};
 
 }
+
+export const insertMessageGet = (req, res, next) => {
+	res.render("writeMessage");
+}
+
+export const insertMessagePost = async (req, res, next) => {
+
+	try {
+		const user_id = req.user.id;
+		console.log(user_id);
+
+		const { title, message } = req.body;
+
+		if (user_id !== null) {
+			await pool.query(`INSERT INTO messages (userid,title,message,created_at) VALUES ($1,$2,$3,NOW());`, [user_id, title, message]);
+		}
+	} catch (err) {
+		next(err);
+	}
+}
