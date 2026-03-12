@@ -23,7 +23,7 @@ const validateUser = [
 	body('confirm_password').custom((value, { req }) => {
 		return value === req.body.password;
 	}).withMessage(passNoMatch),
-	body("admin_pass").optional().trim().matches(adminPass).withMessage(notAdmin),
+	body("admin_pass").if(body("membership").equals("admin")).notEmpty().withMessage("Admin pass required").trim().equals(adminPass).withMessage(notAdmin)
 ];
 
 export const userIndex = (req, res, next) => {
@@ -74,7 +74,7 @@ export const signUpUserPost = [validateUser, async (req, res, next) => {
 }]
 
 export const loginUserPost = passport.authenticate("local", {
-	successRedirect: "/",
+	successRedirect: "/messages",
 	faliureRedirect: "/log-in"
 })
 
@@ -89,22 +89,23 @@ export const messagesGet = async (req, res, next) => {
 			total_data.push({ username: rows[0].firstname, notes: messages[i] });
 		}
 
-		console.log(req.user.membership);
-
-		if (req.isAuthenticated() && req.user.membership === "admin") {
-			return res.render("messageBoardAdmin", { data: total_data });
-		}
-		else if (req.isAuthenticated() && req.user.membership !== "admin") {
-			return res.render("messageBoard", { data: total_data });
-		}
-		else {
+		if (!req.user) {
 			const anonymous = messages.map((msg) => ({
 				username: "Anonymous",
 				notes: msg
 			}));
-			console.log(anonymous);
 			return res.render("messageBoard", { data: anonymous });
 		}
+
+		if (req.isAuthenticated() && req.user.membership === "admin") {
+			return res.render("messageBoardAdmin", { data: total_data });
+		}
+		if (req.isAuthenticated() && req.user.membership !== "admin") {
+			return res.render("messageBoard", { data: total_data });
+		}
+
+
+
 
 	}
 	catch (error) {
@@ -127,6 +128,9 @@ export const insertMessagePost = async (req, res, next) => {
 		if (user_id !== null) {
 			await pool.query(`INSERT INTO messages (userid,title,message,created_at) VALUES ($1,$2,$3,NOW());`, [user_id, title, message]);
 		}
+
+		res.redirect("/messages");
+
 	} catch (err) {
 		next(err);
 	}
@@ -138,8 +142,18 @@ export const deleteMessageFromBoard = async (req, res, next) => {
 
 		await pool.query(`DELETE FROM messages WHERE message_id = $1;`, [message_id]);
 
-		res.render("messageBoard");
+		res.redirect("/messages");
+
 	} catch (err) {
 		next(err);
 	}
+}
+
+export const logout = (req, res, next) => {
+	req.logout((err) => {
+		if (err) {
+			next(err);
+		}
+		res.redirect('/');
+	});
 }

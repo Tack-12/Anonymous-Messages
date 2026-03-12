@@ -1,0 +1,23 @@
+<nav style="display:flex; justify-content:space-between; align-items:center; padding:10px 20px; background:#222; color:white;">
+    
+    <!-- Left Side -->
+    <div>
+        <a href="/" style="color:white; text-decoration:none; font-size:20px; font-weight:bold;">
+            Anonymous-Messages
+        </a>
+    </div>
+
+    <!-- Right Side -->
+    <div>
+        <% if (user) { %>
+            <form action="/logout" method="GET" style="display:inline;">
+                <button type="submit">Logout</button>
+            </form>
+        <% } else { %>
+            <a href="/login">
+                <button>Login</button>
+            </a>
+        <% } %>
+    </div>
+
+</nav>
