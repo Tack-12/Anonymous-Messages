@@ -89,10 +89,12 @@ export const messagesGet = async (req, res, next) => {
 			total_data.push({ username: rows[0].firstname, notes: messages[i] });
 		}
 
-		if (req.isAuthenticated() && req.user.admin === "Admin") {
+		console.log(req.user.membership);
+
+		if (req.isAuthenticated() && req.user.membership === "admin") {
 			return res.render("messageBoardAdmin", { data: total_data });
 		}
-		else if (req.isAuthenticated() && req.user.admin !== "Admin") {
+		else if (req.isAuthenticated() && req.user.membership !== "admin") {
 			return res.render("messageBoard", { data: total_data });
 		}
 		else {
@@ -119,13 +121,24 @@ export const insertMessagePost = async (req, res, next) => {
 
 	try {
 		const user_id = req.user.id;
-		console.log(user_id);
 
 		const { title, message } = req.body;
 
 		if (user_id !== null) {
 			await pool.query(`INSERT INTO messages (userid,title,message,created_at) VALUES ($1,$2,$3,NOW());`, [user_id, title, message]);
 		}
+	} catch (err) {
+		next(err);
+	}
+}
+
+export const deleteMessageFromBoard = async (req, res, next) => {
+	try {
+		const message_id = req.params.id;
+
+		await pool.query(`DELETE FROM messages WHERE message_id = $1;`, [message_id]);
+
+		res.render("messageBoard");
 	} catch (err) {
 		next(err);
 	}
