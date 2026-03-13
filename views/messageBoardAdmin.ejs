@@ -1,47 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Admin Message Board</title>
+<title>Admin Message Board</title>
+<link rel="stylesheet" href="/css/board.css">
 </head>
+
 <body>
 
-<h1>Admin Message Board</h1>
+<%- include("navbar") %>
+
+<div class="board-container">
 
 <% if (data && data.length > 0) { %>
 
-    <% data.forEach((item)=>{ %>
+<% data.forEach((item)=>{ %>
 
-        <div style="border:1px solid #ccc; padding:10px; margin:10px; position:relative;">
-            
-            <!-- Delete Button -->
-            <form action="/delete-message/<%= item.notes.message_id %>" method="POST" 
-                  style="position:absolute; right:10px; top:10px;">
-                <button type="submit" style="background:red; color:white; border:none; padding:5px 8px;">
-                    <a href="/delete-message/<%= item.notes.message_id %>"> X </a> 
-                </button>
-            </form>
+<div class="message-card">
 
-            <h3><%= item.notes.title %></h3>
+<form action="/delete-message/<%= item.notes.message_id %>" method="POST">
+<button class="delete-button">X</button>
+</form>
 
-            <p><%= item.notes.message %></p>
+<h3><%= item.notes.title %></h3>
 
-            <small>
-                Posted by: <%= item.username %> <br>
-                Date: <%= item.notes.created_at %>
-            </small>
+<p><%= item.notes.message %></p>
 
-        </div>
+<div class="message-meta">
+Posted by: <%= item.username %> <br>
+Date: <%= item.notes.created_at %>
+</div>
 
-    <% }) %>
+</div>
+
+<% }) %>
 
 <% } else { %>
-    <p>No messages found.</p>
+
+<p>No messages found.</p>
+
 <% } %>
 
-<button>
-    <a href="/write-messages">Add New Message</a>
-</button>
+<div class="add-message">
+<a href="/write-messages">Add New Message</a>
+</div>
+
+</div>
 
 </body>
 </html>

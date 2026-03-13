@@ -1,50 +1,77 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Create User</title>
+<title>Create User</title>
+<link rel="stylesheet" href="/css/forms.css">
 </head>
+
 <body>
+
+<div class="form-container">
 
 <h2>Create User</h2>
 
 <% if (typeof errors !== "undefined" && errors.length > 0) { %>
-    <ul style="color: red;">
-        <% errors.forEach(error => { %>
-            <li><%= error.msg %></li>
-        <% }) %>
-    </ul>
+
+<ul class="error-list">
+<% errors.forEach(error => { %>
+<li><%= error.msg %></li>
+<% }) %>
+</ul>
+
 <% } %>
 
 <form action="/sign-up" method="POST">
 
-    <label for="firstname">First Name:</label><br>
-    <input type="text" id="firstname" name="firstname" required><br><br>
+<div class="form-group">
+<label>First Name:</label>
+<input type="text" name="firstname" required>
+</div>
 
-    <label for="lastname">Last Name:</label><br>
-    <input type="text" id="lastname" name="lastname" required><br><br>
+<div class="form-group">
+<label>Last Name:</label>
+<input type="text" name="lastname" required>
+</div>
 
-    <label for="email">Email:</label><br>
-    <input type="email" id="email" name="email" required><br><br>
+<div class="form-group">
+<label>Email:</label>
+<input type="email" name="email" required>
+</div>
 
-    <label for="password">Password:</label><br>
-    <input type="password" id="password" name="password" required><br><br>
+<div class="form-group">
+<label>Password:</label>
+<input type="password" name="password" required>
+</div>
 
-    <label for="confirm_password">Confirm Password:</label><br>
-    <input type="password" id="confirm_password" name="confirm_password" required><br><br>
+<div class="form-group">
+<label>Confirm Password:</label>
+<input type="password" name="confirm_password" required>
+</div>
 
-    <label for="membership">Membership:</label><br>
-    <select id="membership" name="membership" required>
-        <option value="admin">Admin</option>
-        <option value="normal">Normal</option>
-    </select><br><br>
-    <input type="text" name="admin_pass" id="admin_pass" >
+<div class="form-group">
+<label>Membership:</label>
+<select name="membership" required>
+<option value="admin">Admin</option>
+<option value="normal">Normal</option>
+</select>
+</div>
 
-    <button type="submit">Submit</button>
+<div class="form-group">
+<input type="text" name="admin_pass">
+</div>
+
+<button type="submit">Submit</button>
+
 </form>
 
-<p>Already Signed in ? Log In</p> 
-<button> <a href="/">LogIn</a></button>
+<div class="form-footer">
+<p>Already Signed in ? Log In</p>
+<a href="/log-in">
+<button>LogIn</button>
+</a>
+</div>
 
+</div>
 
 </body>
 </html>

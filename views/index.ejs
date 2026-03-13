@@ -1,15 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Hello Page</title>
+<meta charset="UTF-8">
+<title>Hello Page</title>
+<link rel="stylesheet" href="/css/board.css">
 </head>
+
 <body>
-    <h1>
-        Hello there 
-        <% if (typeof user !== 'undefined' && user) { %>
-            <%= user.name %>
-        <% } %>
-    </h1>
+
+<div class="board-container">
+
+<h1>
+Hello there 
+<% if (typeof user !== 'undefined' && user) { %>
+<%= user.name %>
+<% } %>
+</h1>
+
+</div>
+
 </body>
 </html>

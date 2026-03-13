@@ -1,34 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Message Board</title>
+<title>Admin Message Board</title>
+<link rel="stylesheet" href="/css/board.css">
 </head>
+
 <body>
 
 <%- include("navbar") %>
 
+<div class="board-container">
+
 <% if (data && data.length > 0) { %>
 
-        <% data.forEach((item)=>{ %>
-        <div style="border:1px solid #ccc; padding:10px; margin:10px;" >
-            
-            <h3><%= item.notes.title %></h3>
+<% data.forEach((item)=>{ %>
 
-            <p><%= item.notes.message %></p>
+<div class="message-card">
 
-            <small>
-                Posted by: <%= item.username %> <br>
-                Date: <%= item.notes.created_at %>
-            </small>
 
-        </div>
-    <% }) %>
+<h3><%= item.notes.title %></h3>
+
+<p><%= item.notes.message %></p>
+
+<div class="message-meta">
+Posted by: <%= item.username %> <br>
+Date: <%= item.notes.created_at %>
+</div>
+
+</div>
+
+<% }) %>
 
 <% } else { %>
-    <p>No messages found.</p>
+
+<p>No messages found.</p>
+
 <% } %>
 
-<button> <a href="/write-messages">Add New Message </a></button>
+<div class="add-message">
+<a href="/write-messages">Add New Message</a>
+</div>
+
+</div>
+
 </body>
 </html>

@@ -1,24 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login</title>
+<title>Login</title>
+<link rel="stylesheet" href="/css/forms.css">
 </head>
+
 <body>
+
+<div class="form-container">
 
 <h2>Login</h2>
 
 <form method="post" action="/log-in">
-    <label for="email">Email:</label><br>
-    <input type="text" id="email" name="email" required><br><br>
 
-    <label for="password">Password:</label><br>
-    <input type="password" id="password" name="password" required><br><br>
+<div class="form-group">
+<label>Email:</label>
+<input type="text" name="email" required>
+</div>
 
-    <button type="submit">Login</button>
+<div class="form-group">
+<label>Password:</label>
+<input type="password" name="password" required>
+</div>
+
+<button type="submit">Login</button>
+
 </form>
 
-<p>No Account? Sign Up</p> 
-<button> <a href="/sign-up">Sign Up</a></button>
+<div class="form-footer">
+<p>No Account? Sign Up</p>
+<a href="/sign-up">
+<button>Sign Up</button>
+</a>
+</div>
+
+</div>
 
 </body>
 </html>

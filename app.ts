@@ -13,10 +13,13 @@ const __dirname = import.meta.dirname;
 const app = express();
 const pgSession = pgSimple(session);
 
+
 //Setting up the view engine
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
+//Set style-sheets:
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use(session({
 	secret: dotEnv.SECRET,

@@ -1,0 +1,80 @@
+body{
+font-family:"Segoe UI",Tahoma,Geneva,Verdana,sans-serif;
+background:#f1f5f9;
+margin:0;
+padding:0;
+}
+
+.board-container{
+max-width:850px;
+margin:40px auto;
+padding:10px 20px;
+}
+
+.message-card{
+background:white;
+border-radius:12px;
+padding:20px;
+margin-bottom:18px;
+box-shadow:0 6px 16px rgba(0,0,0,0.06);
+position:relative;
+transition:all .2s;
+}
+
+.message-card:hover{
+transform:translateY(-3px);
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
+}
+
+.message-card h3{
+margin-top:0;
+margin-bottom:10px;
+color:#1e293b;
+}
+
+.message-card p{
+color:#334155;
+line-height:1.5;
+}
+
+.message-meta{
+margin-top:12px;
+font-size:13px;
+color:#64748b;
+}
+
+.delete-button{
+position:absolute;
+top:12px;
+right:12px;
+background:#ef4444;
+border:none;
+padding:6px 10px;
+color:white;
+border-radius:6px;
+cursor:pointer;
+font-size:13px;
+}
+
+.delete-button:hover{
+background:#dc2626;
+}
+
+.add-message{
+text-align:center;
+margin-top:25px;
+}
+
+.add-message a{
+text-decoration:none;
+background:#6366f1;
+color:white;
+padding:12px 20px;
+border-radius:8px;
+font-size:15px;
+transition:all .2s;
+}
+
+.add-message a:hover{
+background:#4f46e5;
+}

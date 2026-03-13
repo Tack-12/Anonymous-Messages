@@ -13,28 +13,28 @@ passport.use(new LocalStrategy(data_fields, async (email, password, done) => {
 		const { rows } = await pool.query(`SELECT * FROM users WHERE email=$1`, [email]);
 		const user = rows[0];
 
-		if (!rows) {
-			done(null, false, { message: "Incorrect Email/Password" });
+		if (!user) {
+			return done(null, false, { message: "Incorrect Email/Password" });
 		}
 
 		const hashed_password = user.password;
 		const matched = await bcrypt.compare(password, hashed_password);
 
 		if (!matched) {
-			done(null, false, { message: "Incorrect Email/Password" });
+			return done(null, false, { message: "Incorrect Email/Password" });
 		}
 
-		done(null, user);
+		return done(null, user);
 
 	} catch (err) {
-		done(err);
+		return done(err);
 	}
 
 
 }));
 
 passport.serializeUser((user, done) => {
-	done(null, user.id);
+	return done(null, user.id);
 });
 
 passport.deserializeUser(async (id, done) => {
@@ -42,10 +42,10 @@ passport.deserializeUser(async (id, done) => {
 		const { rows } = await pool.query(`SELECT id, firstname, lastname, email, membership FROM users WHERE id=$1`, [id]);
 		const user = rows[0];
 
-		done(null, user);
+		return done(null, user);
 
 	} catch (error) {
-		done(error);
+		return done(error);
 	}
 });
 

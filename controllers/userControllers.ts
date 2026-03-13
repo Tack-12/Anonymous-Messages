@@ -28,7 +28,7 @@ const validateUser = [
 
 export const userIndex = (req, res, next) => {
 	try {
-		res.render("index", { user: req.user });
+		return res.render("index", { user: req.user });
 	} catch (err) {
 		next(err);
 	};
@@ -36,7 +36,7 @@ export const userIndex = (req, res, next) => {
 
 export const signUpUserGet = (req, res, next) => {
 	try {
-		res.render("signUp");
+		return res.render("signUp");
 	} catch (err) {
 		next(err);
 	}
@@ -67,15 +67,16 @@ export const signUpUserPost = [validateUser, async (req, res, next) => {
 		await pool.query(`INSERT INTO users (firstname, lastname, email, password, membership)VALUES ($1, $2, $3, $4, $5)`,
 			[firstname, lastname, email, hashed_password, membership]);
 
-		res.redirect("/");
+		return res.redirect("/log-in");
 	} catch (err) {
 		next(err);
 	}
 }]
 
 export const loginUserPost = passport.authenticate("local", {
-	successRedirect: "/messages",
-	faliureRedirect: "/log-in"
+	successRedirect: "/",
+	failureRedirect: "/log-in",
+	failureMessage: true
 })
 
 export const messagesGet = async (req, res, next) => {
@@ -115,7 +116,7 @@ export const messagesGet = async (req, res, next) => {
 }
 
 export const insertMessageGet = (req, res, next) => {
-	res.render("writeMessage");
+	return res.render("writeMessage");
 }
 
 export const insertMessagePost = async (req, res, next) => {
@@ -129,7 +130,7 @@ export const insertMessagePost = async (req, res, next) => {
 			await pool.query(`INSERT INTO messages (userid,title,message,created_at) VALUES ($1,$2,$3,NOW());`, [user_id, title, message]);
 		}
 
-		res.redirect("/messages");
+		return res.redirect("/");
 
 	} catch (err) {
 		next(err);
@@ -139,10 +140,10 @@ export const insertMessagePost = async (req, res, next) => {
 export const deleteMessageFromBoard = async (req, res, next) => {
 	try {
 		const message_id = req.params.id;
-
+		console.log(message_id);
 		await pool.query(`DELETE FROM messages WHERE message_id = $1;`, [message_id]);
 
-		res.redirect("/messages");
+		return res.redirect("/");
 
 	} catch (err) {
 		next(err);
@@ -154,6 +155,6 @@ export const logout = (req, res, next) => {
 		if (err) {
 			next(err);
 		}
-		res.redirect('/');
+		return res.redirect('/log-in');
 	});
 }

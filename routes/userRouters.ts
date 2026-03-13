@@ -5,7 +5,7 @@ const userRoutes = Router();
 
 
 //User Routes to login
-userRoutes.get("/", UserController.loginUserGet);
+userRoutes.get("/log-in", UserController.loginUserGet);
 userRoutes.post("/log-in", UserController.loginUserPost);
 
 //User Routes to logout
@@ -17,7 +17,7 @@ userRoutes.get("/sign-up", UserController.signUpUserGet);
 userRoutes.post("/sign-up", UserController.signUpUserPost);
 
 //Show messages
-userRoutes.get("/messages", UserController.messagesGet);
+userRoutes.get("/", UserController.messagesGet);
 
 //User Routes to show messages
 userRoutes.get("/write-messages", isAuth, UserController.insertMessageGet);
@@ -26,6 +26,6 @@ userRoutes.get("/write-messages", isAuth, UserController.insertMessageGet);
 userRoutes.post("/write-messages", isAuth, UserController.insertMessagePost);
 
 //Delete Message from board:
-userRoutes.get("/delete-message/:id", isAuth, isAdmin, UserController.deleteMessageFromBoard);
+userRoutes.post("/delete-message/:id", isAuth, isAdmin, UserController.deleteMessageFromBoard);
 
 export default userRoutes;
